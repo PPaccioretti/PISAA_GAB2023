@@ -1,0 +1,71 @@
+---
+title: "Mesa de análisis de datos in situ"
+subtitle: "Procesamiento de imágenes satelitales con aplicaciones en agricultura"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+## ¿De qué se trata esta mesa de análisis de datos in situ?
+
+En esta mesa abordaremos herramientas básicas relacionadas al procesamiento de
+imágenes satelitales. Veremos conceptos básicos de datos espaciales, los principales paquetes de R que se utilizan para trabajar este tipo de datos y nos enfocaremos en el paquete `rgee` para el uso de Google Earth Engine (GEE) desde R.
+
+### Sobre Google Earth Engine
+
+Google Earth Engine (GEE) es una plataforma que permite, a través de código 
+de programación, la descarga y procesamiento de información proveniente de 
+numerosas imágenes satelitales y datos geoespaciales desde la nube. Una ventaja
+de GEE, es que permite el procesamiento fuera del ordenador del usuario. 
+
+### Contenido
+
+* Requerimientos de software (R, RStudio, paquetes especializados, GEE)
+* Ilustración
+    * Escala fina (lote agrícola)
+       - Visualizacion y manejo de datos espaciales
+       - Descarga de imágenes Sentinel-2
+       - Cálculo de índice de vegetación
+       - Clasificación de sitios
+    * Escala regional 
+       - Descarga de datos climáticos a escala regional
+
+
+## Requisitos básicos
+
+- Tener instalado [R](https://cran.r-project.org/) y [RStudio](https://posit.co/download/rstudio-desktop/)
+- Registrarse en [Google Earth Engine](https://code.earthengine.google.com/register).
+
+- [Instalar `rgee`](https://r-spatial.github.io/rgee/articles/rgee01.html#installation)
+
+```{r}
+#| eval: false
+
+install.packages("rgee")
+remotes::install_github("r-earthengine/rgeeExtra")
+library(rgee)
+ee_install(py_env = "rgee") # Es necesario ejecutarlo una única vez
+
+```
+
+- [Autenticar las credenciales](https://r-spatial.github.io/rgee/articles/rgee01.html#authentication) 
+
+```{r}
+#| eval: false
+
+
+library(rgee)
+#ee_reattach() # reattach ee as a reserve word
+# Initialize just Earth Engine
+ee_Initialize() 
+ee_Initialize(user = 'mimail@gmail.com') # Use the argument email is not mandatory, but it's helpful to change of EE user.
+# Initialize Earth Engine and GD
+ee_Initialize(user = 'mimail@gmail.com', drive = TRUE)
+```
+
+
+
+<!-- https://github.com/r-spatial/rgee -->
+<!-- https://r-spatial.github.io/rgee/articles/rgee01.html -->
+<!-- https://rstudio-pubs-static.s3.amazonaws.com/639598_f8b124e23b7949a49250693dc3c5a6a7.html -->
+<!-- https://www.youtube.com/watch?v=M2gjiMirLac -->
