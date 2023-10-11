@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/PPaccioretti/EstadisticaEspacial" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+    <a class="nav-link" href="https://ppaccioretti.github.io/PISAA_GAB2023/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -173,7 +173,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="de-qué-se-trata-esta-mesa-de-análisis-de-datos-in-situ" class="level2">
 <h2 class="anchored" data-anchor-id="de-qué-se-trata-esta-mesa-de-análisis-de-datos-in-situ">¿De qué se trata esta mesa de análisis de datos in situ?</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <p>En esta mesa abordaremos herramientas básicas relacionadas al procesamiento de imágenes satelitales. Veremos conceptos básicos de datos espaciales, los principales paquetes de R que se utilizan para trabajar este tipo de datos y nos enfocaremos en el paquete <code>rgee</code> para el uso de Google Earth Engine (GEE) desde R.</p>
+</div><div class="column" style="width:5%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/qrcode.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">https://ppaccioretti.github.io/PISAA_GAB2023/</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <section id="sobre-google-earth-engine" class="level3">
 <h3 class="anchored" data-anchor-id="sobre-google-earth-engine">Sobre Google Earth Engine</h3>
 <p>Google Earth Engine (GEE) es una plataforma que permite, a través de código de programación, la descarga y procesamiento de información proveniente de numerosas imágenes satelitales y datos geoespaciales desde la nube. Una ventaja de GEE, es que permite el procesamiento fuera del ordenador del usuario.</p>
@@ -529,67 +542,84 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## ¿De qué se trata esta mesa de análisis de datos in situ?</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>En esta mesa abordaremos herramientas básicas relacionadas al procesamiento de</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>imágenes satelitales. Veremos conceptos básicos de datos espaciales, los principales paquetes de R que se utilizan para trabajar este tipo de datos y nos enfocaremos en el paquete <span class="in">`rgee`</span> para el uso de Google Earth Engine (GEE) desde R.</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sobre Google Earth Engine</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>Google Earth Engine (GEE) es una plataforma que permite, a través de código </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>de programación, la descarga y procesamiento de información proveniente de </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>numerosas imágenes satelitales y datos geoespaciales desde la nube. Una ventaja</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>de GEE, es que permite el procesamiento fuera del ordenador del usuario. </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contenido</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Requerimientos de software (R, RStudio, paquetes especializados, GEE)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Ilustración</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Escala fina (lote agrícola)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Visualizacion y manejo de datos espaciales</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Descarga de imágenes Sentinel-2</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Cálculo de índice de vegetación</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Clasificación de sitios</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Escala regional </span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Descarga de datos climáticos a escala regional</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>::: {.column width="70%"}</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>En esta mesa abordaremos herramientas básicas relacionadas al procesamiento de</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>imágenes satelitales. Veremos conceptos básicos de datos espaciales, los principales paquetes de R que se utilizan para trabajar este tipo de datos y nos enfocaremos en el paquete <span class="in">`rgee`</span> para el uso de Google Earth Engine (GEE) desde R.</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>::: {.column width="5%"}</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty column to create gap --&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>::: {.column width="25%"}</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="al">![https://ppaccioretti.github.io/PISAA_GAB2023/](images/qrcode.png)</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sobre Google Earth Engine</span></span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Requisitos básicos</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tener instalado <span class="co">[</span><span class="ot">R</span><span class="co">](https://cran.r-project.org/)</span> y <span class="co">[</span><span class="ot">RStudio</span><span class="co">](https://posit.co/download/rstudio-desktop/)</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Registrarse en <span class="co">[</span><span class="ot">Google Earth Engine</span><span class="co">](https://code.earthengine.google.com/register)</span>.</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Instalar `rgee`</span><span class="co">](https://r-spatial.github.io/rgee/articles/rgee01.html#installation)</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rgee"</span>)</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r-earthengine/rgeeExtra"</span>)</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_install</span>(<span class="at">py_env =</span> <span class="st">"rgee"</span>) <span class="co"># Es necesario ejecutarlo una única vez</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>Google Earth Engine (GEE) es una plataforma que permite, a través de código </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>de programación, la descarga y procesamiento de información proveniente de </span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>numerosas imágenes satelitales y datos geoespaciales desde la nube. Una ventaja</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>de GEE, es que permite el procesamiento fuera del ordenador del usuario. </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contenido</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Requerimientos de software (R, RStudio, paquetes especializados, GEE)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Ilustración</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Escala fina (lote agrícola)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Visualizacion y manejo de datos espaciales</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Descarga de imágenes Sentinel-2</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Cálculo de índice de vegetación</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Clasificación de sitios</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Escala regional </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="ss">       - </span>Descarga de datos climáticos a escala regional</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Requisitos básicos</span></span>
 <span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Autenticar las credenciales</span><span class="co">](https://r-spatial.github.io/rgee/articles/rgee01.html#authentication)</span> </span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="co">#ee_reattach() # reattach ee as a reserve word</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize just Earth Engine</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>() </span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>(<span class="at">user =</span> <span class="st">'mimail@gmail.com'</span>) <span class="co"># Use the argument email is not mandatory, but it's helpful to change of EE user.</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Earth Engine and GD</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>(<span class="at">user =</span> <span class="st">'mimail@gmail.com'</span>, <span class="at">drive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tener instalado <span class="co">[</span><span class="ot">R</span><span class="co">](https://cran.r-project.org/)</span> y <span class="co">[</span><span class="ot">RStudio</span><span class="co">](https://posit.co/download/rstudio-desktop/)</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Registrarse en <span class="co">[</span><span class="ot">Google Earth Engine</span><span class="co">](https://code.earthengine.google.com/register)</span>.</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Instalar `rgee`</span><span class="co">](https://r-spatial.github.io/rgee/articles/rgee01.html#installation)</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rgee"</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r-earthengine/rgeeExtra"</span>)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_install</span>(<span class="at">py_env =</span> <span class="st">"rgee"</span>) <span class="co"># Es necesario ejecutarlo una única vez</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Autenticar las credenciales</span><span class="co">](https://r-spatial.github.io/rgee/articles/rgee01.html#authentication)</span> </span>
 <span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://github.com/r-spatial/rgee --&gt;</span></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://r-spatial.github.io/rgee/articles/rgee01.html --&gt;</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://rstudio-pubs-static.s3.amazonaws.com/639598_f8b124e23b7949a49250693dc3c5a6a7.html --&gt;</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://www.youtube.com/watch?v=M2gjiMirLac --&gt;</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="co">#ee_reattach() # reattach ee as a reserve word</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize just Earth Engine</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>() </span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>(<span class="at">user =</span> <span class="st">'mimail@gmail.com'</span>) <span class="co"># Use the argument email is not mandatory, but it's helpful to change of EE user.</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Earth Engine and GD</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>(<span class="at">user =</span> <span class="st">'mimail@gmail.com'</span>, <span class="at">drive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://github.com/r-spatial/rgee --&gt;</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://r-spatial.github.io/rgee/articles/rgee01.html --&gt;</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://rstudio-pubs-static.s3.amazonaws.com/639598_f8b124e23b7949a49250693dc3c5a6a7.html --&gt;</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://www.youtube.com/watch?v=M2gjiMirLac --&gt;</span></span>
 </code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

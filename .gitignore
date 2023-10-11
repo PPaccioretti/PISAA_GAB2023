@@ -4,7 +4,6 @@
 .Ruserdata
 /.quarto/
 .secrets
-images
-cache
-cache_rgee
-raw
+cache/
+cache_rgee/
+raw/

@@ -1,22 +1,4 @@
----
-title: "Aplicación a escala fina"
-format: html
-editor_options: 
-  chunk_output_type: console
----
-
-A partir de datos de rendimiento de maíz de un lote agrícola, se obtienen 
-imágenes hiperespectrales de Sentinel-2, se extraen bandas de interés
-y se calculan índices de vegetación. La información es utilizada para 
-delimitar áreas homogéneas dentro del lote. 
-
-# Paquetes 
-
-R cuenta con diferentes paquetes especializados para poder leer y manejar 
-datos espaciales. La información de datos espaciales se suelen representar
-de dos maneras
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 #| message: false
 
 library(dplyr) # Manejo de datos
@@ -27,165 +9,90 @@ library(ggplot2) # Graficos en general y mapas
 library(tmap) # Mapas temáticos
 library(rgee) # GEE en R
 source('src/s2_clean.R') # Funcion para limpiar nubes
-```
-
-# Tipos de datos espaciales
-
-+ Los datos **vectoriales**, usando puntos, líneas y polígonos, permiten representar superficies
-
-+ Los datos tipo **ráster** divide la superficie en celdas (pixeles) de tamaño constante 
 
 
-## Manejo de datos vectoriales
-
-El paquete `sf` es el más utilizado para la lectura y manejo de este tipo de 
-datos. Los objetos de clase sf son básicamente objetos de clase `data.frame`
-al que se le adiciona una columna de tipo lista con la información espacial. 
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 datosRto <- st_read('data/rto_mz_loteA.gpkg')
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 datosRto
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 poligonoLote <-
   concaveman::concaveman(datosRto,
                          concavity = 2.5,
                          length_threshold = 0)
 plot(poligonoLote)
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 area <- st_area(poligonoLote)
 # round(units::set_units(area, 'ha'), 0)
-```
-
-El área del lote es de `r round(units::set_units(area, 'ha'), 0)` ha.
 
 
-## Visualización
-
-En general, uno de los paquetes más conocido utilizado para la visualización de
-datos es `ggplot2`, este paquete permite realizar gráficos de manera rápida. 
-Además, el paquete `tmap` contiene funciones específicas para realizar mapas 
-temáticos. 
-
-
-### `ggplot2`
-
-Para realizar un gráfico con este paquete es necesario ir sumando cada una de 
-las partes del gráfico. 
-
-Idividualmente se especifican partes del gráfico. Luego estas partes se combinan para obtener el gráfico completo. Estas partes son:
-
-- Datos
-- Mapeo estético (*aesthetic mapping*)
-- Objetos geométricos (*geometric object*)
-- Transformaciones estadísticas (*statistical transformations*)
-- Escalas (*scales*)
-- Sistema de coordenadas (*coordinate system*)
-- Ajustes de posición (*position adjustments*)
-- Particiones (*faceting*)
-
-Comenzaremos indicando que queremos hacer un gráfico utilizando el objeto
-`datosRto`
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto)
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto, aes(x = Masa_de_re))
-```
 
-Podemos realizar un histograma de los datos de rendimiento adicionando
-una geometría de histograma
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto) +
   geom_histogram(aes(x = Masa_de_re))
-```
 
 
-
-Podemos eliminar datos extremos
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 datosRto <- 
   datosRto |> 
   filter(Masa_de_re < 10)
-```
 
-Además, mediante la función `geom_sf` podemos realizar mapas teniendo en
-cuenta la espacialidad de  los puntos de redimiento
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto) +
   geom_sf()
-```
 
-Podemos colorear nuestros puntos por los valores de rendimiento que se
-encuentran en la columna `Masa_de_re`. Para indicar esto, utilizamos 
-la función `aes`, la cual es la abreviatura de estética (_aesthetic mappings_)
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto) +
   geom_sf(aes(color = Masa_de_re))
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datosRto) +
   geom_sf(aes(color = Masa_de_re),
           size = 0.5)
-```
 
 
-### `tmap`
-
-- La sintaxis es similar a `ggplot2`, pero orientada a mapas
-- La mayoría de las funciones comienzan con `tm_*`
-- Para comenzar a graficar, es necesario especificarlo con `tm_shape`
-- Las capas se agregan mediante `+`
-- Permite graficar mapas estáticos o interactivos con el mismo código `tmap_mode()`.
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 tm_shape(datosRto) +
   tm_dots()
-```
 
-Y tambien podemos colorear por rendimiento
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 tm_shape(datosRto) +
   tm_dots(fill = "Masa_de_re")
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 tm_shape(datosRto) +
   tm_dots(fill = "Masa_de_re",
           fill.scale = tm_scale_continuous())
-```
 
 
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 tmap_mode('view')
 
 tm_shape(poligonoLote) +
   tm_polygons(col = 'red')
 
 tmap_mode('plot')
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 tm_shape(datosRto) +
   tm_dots(fill = 'Masa_de_re',
           fill.scale = tm_scale_continuous(values = "brewer.greens"),
@@ -195,25 +102,14 @@ tm_shape(poligonoLote) +
   tm_polygons(fill = NA,
               col = "red",
               lwd = 2)
-```
 
-## Transformación del sistema de coordenadas de referencia 
 
-Para poder interpretar las distancias entre puntos cambiaremos 
-el sistema de coordenadas de referencia (_crs_).
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 datosRto <- st_transform(datosRto, 32720)
 poligonoLote <- st_transform(poligonoLote, 32720)
-```
 
 
-# `rgee`
-
-Autenticación y conexión a GEE a través de R. Autorizaremos tambien 
-el uso de Google Drive mediante el argumento `r drive = TRUE`
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 #| include: false
 library(googledrive)
 
@@ -222,78 +118,28 @@ options(
   gargle_oauth_email = TRUE
 )
 
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 #| label: InitializeRgee
 rgee::ee_Initialize(drive = TRUE)
-```
-
-## Descarga de imágenes satelitales (Sentinel-2) y cálculo del índice de vegetación de diferencia normalizada (NDVI)
-
-El satélite Sentinel-2 es parte del programa Copernicus de la Unión
-Europea y la Agencia Espacial Europea (ESA). Está diseñado para
-proporcionar observaciones de la Tierra con una alta resolución espacial
-(10 metros) y temporal (5 días), especialmente para aplicaciones en la
-gestión de recursos naturales, agricultura, desarrollo urbano y respuesta
-a desastres. Proporciona imágenes multiespectrales con 13 bandas en el
-Espectro visible, en el infrarrojo cercano e infrarrojos de onda corta
-además del espectro electromagnético. [Catálogo de GEE](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED#bands).
-
-![Imagen de https://earth.jaxa.jp/en/eo-knowledge/remote-sensing/index.html](images/en_sat_rad.png)
 
 
-El NDVI es un índice usado para estimar la cantidad, calidad y desarrollo
-de la vegetación con base a la medición de la intensidad de la radiación
-de ciertas bandas del espectro electromagnético que la vegetación emite o
-refleja.
-
-
-:::: {.columns}
-
-::: {.column width="45%"}
-
-$$NDVI = \frac{NIR - RED}{NIR + RED}$$
-
-:::
-
-::: {.column width="10%"}
-<!-- empty column to create gap -->
-:::
-
-::: {.column width="45%"}
-
-$$NDVI = \frac{B8 - B4}{B8 + B4}$$
-
-:::
-
-::::
-
-
-
-A continuación se utilizará el polígono de los bordes del lote para
-recortar la imagen satelital que luego se descargará. Para esto lo
-convertiremos de un objeto de R a un objeto que puede ser utilizado por
-GEE.
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 #| message: false
 poligonoLote_ee <- rgee::sf_as_ee(poligonoLote)
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 disponible <- ee$ImageCollection("COPERNICUS/S2_SR_HARMONIZED")$
   filterDate("2023-09-10","2023-09-20")$
   filterBounds(poligonoLote_ee$geometry())
 
 misImagenes <- ee_get_date_ic(disponible)
 misImagenes
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 
 miImages <- ee$Image(misImagenes[1,'id'])
 
@@ -305,22 +151,18 @@ viz = list(min = 0,
 Map$centerObject(eeObject = miImages, zoom = 9)
 Map$addLayer(eeObject = miImages, visParams = viz) +
 Map$addLayer(eeObject = poligonoLote_ee, visParams = list(color = 'red'))
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 # Filtra por si hay superposición de imágenes
 coveringFilter = ee$Filter$contains(
   leftField = '.geo',
   rightValue = poligonoLote_ee$geometry()
 )
 
-```
 
 
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 start <- rgee::rdate_to_eedate(as.Date("2021-03-10"))
 end <- rgee::rdate_to_eedate(as.Date("2021-03-30"))
 
@@ -347,21 +189,21 @@ sat_data_s2  <-
   map(function(img) {
     img$float()
   })
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 #| results: asis
 bandNames <- sat_data_s2$first()$bandNames()$getInfo()
 cat("Nombre de bandas: ", paste(bandNames, collapse = ", "), '\n')
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 #| results: asis
 count <- sat_data_s2$size()
 cat("Cantidad de fechas: ", count$getInfo(), '\n')
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 sat_data <- sat_data_s2$toBands()
 
 sat_data_stars <- rgee::ee_as_stars(
@@ -372,21 +214,17 @@ sat_data_stars <- rgee::ee_as_stars(
 )
 
 sat_data_stars
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 plot(sat_data_stars)
-```
 
 
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 sat_data_stars <- st_crop(sat_data_stars, poligonoLote)
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 #| warning: false
 
 
@@ -395,62 +233,51 @@ bandas_ndvi <- which(grepl("NDVI", nombre_bandas))
 
 tm_shape(st_as_stars(sat_data_stars[,,,bandas_ndvi])) +
   tm_raster()
-```
 
 
-# Delimitación de zonas homogéneas
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 sat_data_sf <- st_as_sf(sat_data_stars,
                         as_points = TRUE)
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 plot(sat_data_sf)
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 cluster <- paar::kmspc(
   sat_data_sf,
   variables = colnames(st_drop_geometry(sat_data_sf)),
   number_cluster = 2:4)
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 cluster$summaryResults
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 cluster$indices
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 cluster_data <- cbind(sat_data_sf, cluster$cluster)
-```
 
 
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 tm_shape(cluster_data) +
   tm_dots(fill  = 'Cluster_2',
           fill.scale = tm_scale_categorical())
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 cluster_data_poly <- st_join(
   st_as_sf(sat_data_stars,
            as_points = FALSE),
   cluster_data[, c("Cluster_2", "Cluster_3", "Cluster_4")]
   )
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 
 tmap_arrange(
   tm_shape(cluster_data_poly) +
@@ -463,33 +290,25 @@ tmap_arrange(
   ncol = 2
 )
   
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 tmap_mode('view')
 tm_basemap("Esri.WorldImagery") +
  tm_shape(cluster_data_poly) +
     tm_polygons(fill  = 'Cluster_2',
                 fill.scale = tm_scale_categorical())
  
-```
 
 
-
-# Caracterización de clústers
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 datos_rendimiento_zonas <-
   st_join(datosRto[, "Masa_de_re"],
           cluster_data_poly[, "Cluster_2"],
           left = FALSE)
-```
 
 
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 datos_rendimiento_zonas |>
   mutate(mediaGral = mean(Masa_de_re, na.rm = TRUE)) |>
   group_by(Cluster_2) |>
@@ -499,22 +318,18 @@ datos_rendimiento_zonas |>
     CV = sd(Masa_de_re) / media * 100,
     mediaGeneral = unique(mediaGral),
     media_ratio = media/unique(mediaGral))
-```
 
 
-```{r}
+## ---------------------------------------------------------------------------------------------
 ggplot(datos_rendimiento_zonas,
        aes(as.factor(Cluster_2), Masa_de_re)) +
   stat_summary(fun.data = mean_se,
                geom = "bar") +
   labs(y = "Rendimiento",
        x = "Clúster")
-```
 
 
-# Animación
-
-```{r}
+## ---------------------------------------------------------------------------------------------
 start_gif <- "2020-12-01"
 end_gif <- "2021-05-01"
 ndvi_s2 <- ee$ImageCollection("COPERNICUS/S2_SR_HARMONIZED")$
@@ -568,9 +383,9 @@ dates_mabbr <- distinctDOY %>%
   '[['("time_start") %>% # Select time_start column
   format("%d-%m-%Y") # Get the month component of the datetime
 
-```
 
-```{r}
+
+## ---------------------------------------------------------------------------------------------
 #| label: gif_sentinel
 #| message: false
 
@@ -593,5 +408,4 @@ animation %>%
   ) # -> animation_wtxt
 
 # rgeeExtra::ee_utils_gif_save(animation_wtxt, path = "raster_as_ee.gif")
-```
 

@@ -8,8 +8,25 @@ editor_options:
 
 ## ¿De qué se trata esta mesa de análisis de datos in situ?
 
+:::: {.columns}
+
+::: {.column width="70%"}
 En esta mesa abordaremos herramientas básicas relacionadas al procesamiento de
 imágenes satelitales. Veremos conceptos básicos de datos espaciales, los principales paquetes de R que se utilizan para trabajar este tipo de datos y nos enfocaremos en el paquete `rgee` para el uso de Google Earth Engine (GEE) desde R.
+:::
+
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="25%"}
+
+![https://ppaccioretti.github.io/PISAA_GAB2023/](images/qrcode.png)
+:::
+
+::::
+
+
 
 ### Sobre Google Earth Engine
 
